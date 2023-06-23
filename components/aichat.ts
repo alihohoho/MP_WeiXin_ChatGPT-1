@@ -32,7 +32,13 @@ const getReply = async (text: string): Promise<string> => {
         "Cache-Control": "no-cache"
       }
     });
-    const reply =  response.data.choices[0].message?.content.replace(/^\n+|\n+$/g, "")
+     let reply;
+if (response?.data?.choices?.[0]?.message?.content) {
+  reply = response.data.choices[0].message.content.replace(/^\n+|\n+$/g, "");
+} else {
+  reply = '';
+}
+
     return reply || '没有找到答案，请问其他问题吧！';
   } catch (error: any) {
     writeToFile('error', error);
